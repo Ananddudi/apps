@@ -1,30 +1,36 @@
-import axios from "axios";
+import { useState, FormEvent } from "react";
 
-function Login() {
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const formdata: FormData = new FormData(e.target);
-    const email: string | null = formdata.get("email") as string | null;
-    const password: string | null = formdata.get("password") as string | null;
+type props = {
+  handleSubmit: (e: FormEvent<HTMLFormElement>, hideLogin: Boolean) => void;
+};
 
-    const data = await axios.post(
-      "/api/login",
-      {
-        email,
-        password,
-      },
-      {
-        withCredentials: true, // Include this to send cookies
-      }
-    );
-    console.log("data", data.data);
+function LoginAndRegister({ handleSubmit }: props) {
+  const [hideLogin, setHideLogin] = useState<Boolean>(false);
+
+  const showRegister = () => {
+    if (hideLogin)
+      return (
+        <div>
+          <label htmlFor="name" className="d-block">
+            Name
+          </label>
+          <input type="text" name="name" id="name" className="rounded border" />
+        </div>
+      );
+    return null;
+  };
+
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    handleSubmit(e, hideLogin); // Call the handleSubmit function passed as prop
   };
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100 w-100">
       <section className="w-25 shadow bg-white rounded p-5">
         <h1 className="text-center pb-4">Please Login</h1>
-        <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
+        <form onSubmit={handleFormSubmit} className="d-flex flex-column gap-4">
+          {showRegister()}
           <div>
             <label htmlFor="email" className="d-block">
               Email
@@ -51,12 +57,24 @@ function Login() {
             type="submit"
             className="border bg-transparent p-1 border-info rounded"
           >
-            Login
+            {hideLogin ? "Register" : "Login"}
           </button>
+          <div className={`${hideLogin ? "d-none" : "d-block"}`}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setHideLogin(!hideLogin);
+              }}
+              className="border-0 bg-transparent mx-2 text-primary"
+            >
+              Register
+            </button>
+            <span>If not registered already!</span>
+          </div>
         </form>
       </section>
     </div>
   );
 }
 
-export default Login;
+export default LoginAndRegister;

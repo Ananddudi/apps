@@ -1,13 +1,14 @@
-const { jwt } = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
   try {
     const token = req.cookies.token;
     const user = jwt.verify(token, process.env.KEY);
-    if (!data) {
+    if (!user) {
       throw new Error("User not found");
     }
     req.info = { user };
+    console.log("heree", user);
     next();
   } catch (error) {
     res.send(error);

@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-type childrens = {
+type types = {
   children: ReactNode;
+  auth: Boolean;
 };
 
-const auth: boolean = false;
-export default function PrivateRoute({ children }: childrens) {
+export default function PrivateRoute({ children, auth }: types) {
   return <div>{auth ? <Navigate to="/" /> : children}</div>;
 }

@@ -45,7 +45,7 @@ const editTask = async (req, res) => {
 const getTask = async (req, res) => {
   try {
     const { user } = req.info;
-    const tasks = await taskModel.find({ username: req.id });
+    const tasks = await taskModel.find({ username: user._id });
     res.status(200).json({ status: "success", tasks });
   } catch (error) {
     res.send(error);

@@ -9,7 +9,7 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3005", // Your backend server
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api/, ""), // Remove /api prefix when forwarding
       },
     },
   },

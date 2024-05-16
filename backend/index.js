@@ -23,8 +23,8 @@ app.get("/test", (req, res) => {
 
 connect();
 
-app.use("/api", userRouter);
-app.use("/api", auth, taskRouter);
+app.use("/", userRouter);
+app.use("/", auth, taskRouter);
 
 const port = process.env.PORT || 3007;
 
